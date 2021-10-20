@@ -3,8 +3,8 @@ window.onload = init()
 function init(){
     const map = new ol.Map({
         view: new ol.View({
-            center: [1883866, 5983567],
-            zoom: 8,
+            center: [1868579, 5974165],
+            zoom: 9,
             maxZoom: 15,
             minZoom: 7
         }),
@@ -13,6 +13,7 @@ function init(){
                 source: new ol.source.OSM()
             })
         ],
-        target: "js-map"
+        target: "js-map",
+        keyboardEventTarget: document
     })
 }
