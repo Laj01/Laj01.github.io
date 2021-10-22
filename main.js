@@ -1,4 +1,6 @@
-window.onload = init()
+'use strict';
+
+window.onload = init();
 
 function init(){
     const map = new ol.Map({
