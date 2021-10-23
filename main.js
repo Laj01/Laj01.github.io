@@ -14,8 +14,6 @@ function init(){
         layers: [
             new ol.layer.Tile({
                 source: new ol.source.OSM()
-                //[minX, minY, maxX, maxY]
-                //extent: [1739604.2512535667, 5667622.243940988, 2659169.744533458, 6278642.820110521]
             })
         ],
         target: "js-map",
@@ -29,7 +27,6 @@ function init(){
             url: './data/vector_data/vas.geojson'
         })
     })
-
     map.addLayer(vasMegyeLayer);
 
     //Function to get Coordinates from map
