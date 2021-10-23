@@ -11,192 +11,198 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="dropdown">
-            <button class="dropbtn">Alaptérkép
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <label class="container">
-                    <input type="radio" checked="checked" name="radio">
-                    <span class="checkmark">OpenStreetMap</span>
-                </label>
-                <label class="container">
-                    <input type="radio" name="radio">
-                    <span class="checkmark">Bing</span>
-                </label>
-                <label class="container">
-                    <input type="radio" name="radio">
-                    <span class="checkmark">XY</span>
-                </label>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Helység
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Összes</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Bejcgyertyános</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Csehimindszent</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Gérce</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Ikervár</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Jánosháza</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Káld</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Nemeskeresztúr</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Ölbő</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Pecöl</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Sárvár</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Sitke</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Sótony</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Szemenye</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Vásárosmiske</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Vashosszúfalu</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Vát</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Vép</span>
-                </label>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Mélység
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Sekély</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Igen sekély</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Középmély</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Mély</span>
-                </label>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Talajtípus
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Cseri talaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Podzolos cseri talaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Podzolos barna erdőtalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Öntés erdőtalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Pszeudoglejes cseri talaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Rozsdabarna erdőtalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Öntés erdőtalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Kavicsos váztalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Barnaföld</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Réti erdőtalaj</span>
-                </label>
-                <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark">Agyagbemosódásos rozsdabarna erdőtalaj</span>
-                </label>
-            </div>
-        </div>
-    </div>
     <div class="grid-container">
-        <div class="grid-1">
-            <div class="column-map" id="js-map"></div>
-        </div>
-        <div class="grid-2">
-            <div class="column-menu" id="menu-information">
-                <p id="cityname">Választott talajcella adatai:</p>
-                <img id="cityimage" src="./data/static_images/Bejc_22_A.jpg" alt="Vas Megye Logo">
+        <section class="navbar">
+            <div class="dropdown">
+                <button class="dropbtn">Alaptérkép
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <label class="container">
+                        <input type="radio" checked="checked" name="radio">
+                        <span class="checkmark">OpenStreetMap</span>
+                    </label>
+                    <label class="container">
+                        <input type="radio" name="radio">
+                        <span class="checkmark">Bing</span>
+                    </label>
+                    <label class="container">
+                        <input type="radio" name="radio">
+                        <span class="checkmark">XY</span>
+                    </label>
+                </div>
             </div>
-        </div>
+            <div class="dropdown">
+                <button class="dropbtn">Helység
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Összes</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Bejcgyertyános</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Csehimindszent</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Gérce</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Ikervár</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Jánosháza</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Káld</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Nemeskeresztúr</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Ölbő</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Pecöl</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Sárvár</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Sitke</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Sótony</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Szemenye</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Vásárosmiske</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Vashosszúfalu</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Vát</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Vép</span>
+                    </label>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Mélység
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Sekély</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Igen sekély</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Középmély</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Mély</span>
+                    </label>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Talajtípus
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Cseri talaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Podzolos cseri talaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Podzolos barna erdőtalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Öntés erdőtalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Pszeudoglejes cseri talaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Rozsdabarna erdőtalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Öntés erdőtalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Kavicsos váztalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Barnaföld</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Réti erdőtalaj</span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark">Agyagbemosódásos rozsdabarna erdőtalaj</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <main>
+            <div class="column-map" id="js-map"></div>
+        </main>
+        <section class="column-menu">
+            <p id="cityname">Választott talajcella adatai:</p>
+            <img id="cityimage" src="./data/static_images/Bejc_22_A.jpg" alt="Vas Megye Logo">
+            <div class="sampleDescription">
+                <p id="sampleCity">Helység:</p>
+                <p id="sampleTag">Tag:</p>
+                <p id="sampleFraction">Részlet:</p>
+                <p id="sampleArea">Terület:</p>
+                <p id="sampleDept">Mélység:</p>
+                <p id="sampleType">Talajtípus:</p>
+                <p id="sampleDescription">Leírás:</p>
+            </div>
+        </section>
     </div>
-
     <script src="./libs/v6.9.0-dist/ol.js"></script>
     <script src="./main.js"></script>
 </body>

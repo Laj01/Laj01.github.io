@@ -22,6 +22,17 @@ function init(){
         keyboardEventTarget: document
     })
 
+    //Vas megye GeoJson
+    const vasMegyeLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            format: new ol.format.GeoJSON(),
+            url: './data/vector_data/vas.geojson'
+        })
+    })
+
+    map.addLayer(vasMegyeLayer);
+
+    //Function to get Coordinates from map
     map.on('click', function(e){
         console.log(e.coordinate)
     })

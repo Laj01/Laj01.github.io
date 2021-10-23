@@ -1,4 +1,4 @@
-* {
+/** {
     box-sizing: border-box;
 }
 
@@ -49,9 +49,28 @@ body {
     width: auto;
     height: 100px;
     border-radius: 5px;
+}*/
+
+
+
+body {
+    margin: 0;
+    height: 100vh;
 }
 
-.navbar {
+.grid-container {
+    display: grid;
+    margin: 0;
+    height: 100vh;
+    grid-template-columns: 1fr 0.5fr;
+    grid-template-rows: 1fr 15fr;
+    grid-template-areas:
+        "navbar column-menu"
+        "main column-menu";
+}
+
+section.navbar {
+    grid-area: navbar;
     overflow: hidden;
     background-color: rgb(0, 80, 5);
     font-family: Arial;
@@ -102,7 +121,7 @@ body {
 
 .dropdown-content label {
     float: none;
-    color: rgb(255, 255, 255);
+    color: white;
     padding: 5px 5px;
     text-decoration: none;
     display: block;
@@ -111,4 +130,41 @@ body {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+main {
+    grid-area: main;
+}
+
+section.column-menu {
+    grid-area: column-menu;
+    background-color: rgb(0, 80, 5);
+    padding: 5px;
+}
+
+#cityname {
+    position: relative;
+    top: 10%;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    font-size: 25px;
+    font-family: Arial;
+    color: white;
+}
+
+#cityimage {
+    position: relative;
+    top: 0;
+    left: 40%;
+    width: auto;
+    height: 100px;
+    border-radius: 5px;
+}
+
+.sampleDescription {
+    padding: 2em;
+    color: white;
+    font-family: Arial;
+    font-size: 14px;
 }
