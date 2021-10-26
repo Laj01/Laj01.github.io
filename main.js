@@ -20,15 +20,50 @@ function init(){
             minZoom: 7,
             //projection: "EPSG:3857",
             extent: [1739604.2512535667, 5667622.243940988, 2659169.744533458, 6278642.820110521]
-        }),
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            })
-        ],
+        }),        
         target: "js-map",
         keyboardEventTarget: document
     })
+
+    //////////////////////////////////
+    /////Base Layers/////////////////
+
+    ////OSM//////////////////////////
+    const openStreetMapLayer = new ol.layer.Tile({
+        source: new ol.source.OSM(),        
+        visible: true,
+        title: 'OSMTileLayer'        
+    })
+
+    ////Bing Maps///////////////////
+    const bingMapsLayer = new ol.layer.Tile({
+        source: new ol.source.BingMaps({
+            key: 'AooQSoNEEwyuUHIL2fBzcaO5K4thsxum0Y1feSzsc6SRJOJEI7uzHfVzVJZRPni_',
+            imagerySet: 'Aerial'
+        }),
+        visible: false,
+        title: 'BingTileLayer'
+    })
+
+    ////Stamen base layers/////////////
+    const stamenMapLayer = new ol.layer.Tile({
+        source: new ol.source.Stamen({
+            layer: 'terrain',
+            attributions: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'            
+        }),
+        visible: false,
+        title: 'StamenTileLayer'
+    })
+
+    ////Layer group////////////////////
+    const baseLayerGroup = new ol.layer.Group({
+        layers: [
+            openStreetMapLayer,
+            bingMapsLayer,
+            stamenMapLayer
+        ]
+    })
+    map.addLayer(baseLayerGroup)
 
     //Style for the sample data
     const sampleStyle = function(feature){
