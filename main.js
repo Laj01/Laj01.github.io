@@ -62,6 +62,20 @@ function init(){
         return styles
     }
 
+    //Cross style for points
+    const crossStyle = new ol.style.Style({
+        image: new ol.style.RegularShape({
+            fill: new ol.style.Fill({}),
+            stroke: new ol.style.Stroke({                
+                width:2
+            }),
+            points: 4,
+            radius: 10,
+            radius2: 0,
+            angle: Math.PI / 4,
+          })
+    })
+
     //Style based on selected cities
     const sampleCityStyle = new ol.style.Style({
         image: new ol.style.Circle({
@@ -111,6 +125,7 @@ function init(){
             width: 3,
         })
     })
+
     //Vas megye GeoJSON
     const vasLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
@@ -131,7 +146,7 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: sampleSoilStyle
+        style: crossStyle
     })
 
     map.addLayer(sampleLayerGeoJSON);
