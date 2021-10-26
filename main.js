@@ -16,7 +16,7 @@ function init(){
         view: new ol.View({
             center: [1868579, 5974165],
             zoom: 9,
-            maxZoom: 15,
+            maxZoom: 16,
             minZoom: 7,
             //projection: "EPSG:3857",
             extent: [1739604.2512535667, 5667622.243940988, 2659169.744533458, 6278642.820110521]
