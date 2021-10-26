@@ -30,16 +30,98 @@ function init(){
         keyboardEventTarget: document
     })
 
+    //Style for the sample data
+    const sampleStyle = function(feature){
+        let sampleID = feature.get('ID');
+        let sampleIDString = sampleID.toString();
+        const styles = [
+            new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({
+                        color: [77, 219, 105, 0.6]
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: [6, 125, 35, 1],
+                        width: 2
+                    }),
+                    radius: 12
+                }),
+                text: new ol.style.Text({
+                    text: sampleIDString,
+                    scale: 1,
+                    fill: new ol.style.Fill({
+                        color: [232, 26, 26, 1]
+                    })
+                }),
+                stroke: new ol.style.Stroke({
+                    color: [232, 26, 26, 1],
+                    width: 0.3
+                })
+            })
+        ]
+        return styles
+    }
+
+    //Style based on selected cities
+    const sampleCityStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                color: [0, 0, 0, 0]
+            }),
+            stroke: new ol.style.Stroke({
+                color: [255, 0, 0, 0.8],
+                width: 4
+            }),
+            radius: 12
+        })
+    })  
+
+    //Style based on selected depth
+    const sampleDepthStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                color: [0, 0, 0, 0]
+            }),
+            stroke: new ol.style.Stroke({
+                color: [255, 128, 0, 0.8],
+                width: 4
+            }),
+            radius: 8
+        })
+    })
+
+    //Style based on selected soil type
+    const sampleSoilStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                //color: [0, 0, 0, 0]
+            }),
+            stroke: new ol.style.Stroke({
+                //color: [255, 255, 0, 0.8],
+                width: 8
+            }),
+            radius: 4
+        })
+    })
+
+    //Style for Vas megye GeoJSON
+    const vasStyle = new ol.style.Style({        
+        stroke: new ol.style.Stroke({
+            color: 'red',
+            width: 3,
+        })
+    })
     //Vas megye GeoJSON
     const vasLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON(),
             url: './data/vector_data/vas.geojson'
-        })
+        }),
+        style: vasStyle        
     })
     map.addLayer(vasLayerGeoJSON);
 
-    //Minta GeoJSON
+    //Sample GeoJSON
     const sampleLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON({
@@ -48,8 +130,10 @@ function init(){
             url: './data/vector_data/minta.geojson'
         }),
         visible: true,
-        title: 'SampleData'
+        title: 'SampleData',
+        style: sampleSoilStyle
     })
+
     map.addLayer(sampleLayerGeoJSON);
 
     //Function to get Coordinates from map

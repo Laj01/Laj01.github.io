@@ -51,7 +51,7 @@ section.navbar label {
 }
 
 .navbar label:hover,
-.dropdown:hover .dropbtn {
+.navbar label:active .dropdown:hover .dropbtn {
     background-color: rgb(100, 0, 0);
     transition: background-color 0.2s;
     border-radius: 2px 2px 2px 2px;
