@@ -65,6 +65,22 @@ function init(){
     })
     map.addLayer(baseLayerGroup)
 
+    /////////////////////////////////////////
+    ////Layer switcher logic for base layers
+    const baseLayerElements = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=radio]')
+    console.log(baseLayerElements)
+
+    for (let baseLayerElement of baseLayerElements) {
+        baseLayerElement.addEventListener('change', function(){
+            let baseLayerElementValue = this.value;
+            baseLayerGroup.getLayers().forEach(function(element){
+                let baseLayerName = element.get('title');
+                element.setVisible(baseLayerName === baseLayerElementValue)
+            })
+        })        
+    }
+
+
     //Style for the sample data
     const sampleStyle = function(feature){
         let sampleID = feature.get('ID');
