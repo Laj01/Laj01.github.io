@@ -133,10 +133,10 @@ function init(){
                 color: [0, 0, 0, 0]
             }),
             stroke: new ol.style.Stroke({
-                color: [255, 0, 0, 0.8],
-                width: 4
+                color: [255, 0, 0, 1],
+                width: 3.5
             }),
-            radius: 12
+            radius: 9
         })
     })  
 
@@ -147,10 +147,10 @@ function init(){
                 color: [0, 0, 0, 0]
             }),
             stroke: new ol.style.Stroke({
-                color: [255, 128, 0, 0.8],
-                width: 4
+                color: [255, 128, 0, 1],
+                width: 3.5
             }),
-            radius: 8
+            radius: 6
         })
     })
 
@@ -162,7 +162,7 @@ function init(){
             }),
             stroke: new ol.style.Stroke({
                 //color: [255, 255, 0, 0.8],
-                width: 8
+                width: 4
             }),
             radius: 4
         })
@@ -171,7 +171,7 @@ function init(){
     //Style for Vas megye GeoJSON
     const vasStyle = new ol.style.Style({        
         stroke: new ol.style.Stroke({
-            color: 'red',
+            color: [255, 0, 0],
             width: 3,
         })
     })
@@ -196,7 +196,7 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: sampleCityStyle
+        style: [sampleSoilStyle, sampleCityStyle, sampleDepthStyle]
     })
 
     map.addLayer(sampleLayerGeoJSON);
@@ -207,13 +207,13 @@ function init(){
     })
 
     ////Feature hover logic/////////
-    const popoverTextElement = document.getElementById('popover-text');
+    /*const popoverTextElement = document.getElementById('popover-text');
     const popoverTextLayer = new ol.Overlay({
         element: popoverTextElement,
         positioning: 'bottom-center',
         stopEvent: false
     })
-    map.addOverlay(popoverTextLayer);
+    map.addOverlay(popoverTextLayer);*/
 
     map.on('pointermove', function(evt){
         let isFeatureAtPixel = map.hasFeatureAtPixel(evt.pixel);
