@@ -196,7 +196,7 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: crossStyle
+        style: sampleCityStyle
     })
 
     map.addLayer(sampleLayerGeoJSON);
@@ -205,4 +205,28 @@ function init(){
     map.on('click', function(e){
         console.log(e.coordinate)
     })
+
+    ////Feature hover logic/////////
+    const popoverTextElement = document.getElementById('popover-text');
+    const popoverTextLayer = new ol.Overlay({
+        element: popoverTextElement,
+        positioning: 'bottom-center',
+        stopEvent: false
+    })
+    map.addOverlay(popoverTextLayer);
+
+    map.on('pointermove', function(evt){
+        let isFeatureAtPixel = map.hasFeatureAtPixel(evt.pixel);
+        if(isFeatureAtPixel){
+            //let featureAtPixel = map.getFeaturesAtPixel(evt.pixel);
+            //let featureName = featureAtPixel[0].get('Tag');
+            //popoverTextLayer.setPosition(evt.coordinate);
+            //popoverTextElement.innerHTML = featureName;
+            map.getViewport().style.cursor = 'pointer';
+        }else{            
+            //popoverTextLayer.setPosition(undefined);
+            map.getViewport().style.cursor = '';
+        }
+    })
+
 }
