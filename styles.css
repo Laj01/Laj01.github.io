@@ -126,10 +126,18 @@ section.column-menu {
 }
 
 .sampleDescription {
+    margin: 0;
     padding: 0;
     color: white;
     font-family: Arial;
     font-size: 14px;
+}
+
+.sampleDescription p {
+    background-color: rgb(0, 50, 5);
+    border-radius: 3px;
+    line-height: auto;
+    margin-bottom: 0;
 }
 
 /* Lightbox */
