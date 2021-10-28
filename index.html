@@ -156,7 +156,7 @@
             <div class="column-map" id="js-map"></div>
         </main>
         <section class="title-menu">
-            <p id="cityname">Választott talajminta adatai:</p>
+            <p id="cityname">Válasszon mintát!</p>
         </section>
         <section class="picture-menu">
             <a href="#img1">
@@ -168,19 +168,39 @@
         </section>
         <section class="column-menu">
             <div class="sampleDescription">
-                <!--<p id="sampleCity">Helység:</p>-->
                 <p id="sampleTag"> Erdőtag:</p>
                 <p id="sampleFraction"> Erdőrészlet:</p>
                 <p id="sampleArea"> Terület:</p>
                 <p id="sampleDept"> Termőréteg Mélység:</p>
                 <p id="sampleSoilType"> Talajtípus:</p>
-                <p id="sampleDescription"> Leírás:</p>
+                <p id="sampleDescription"> Bővebb leírás:</p>
+
+                <button id="modalButton">Katt ide!</button>
+                <div id="modalBox" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="extendedInformation">Válasszon ki egy mintát a térképről.</p>
+                    </div>
+                </div>
+                <script>
+                    const modal = document.getElementById("modalBox");
+                    const btn = document.getElementById("modalButton");
+                    const span = document.getElementsByClassName("close")[0];
+                    btn.onclick = function () {
+                        modal.style.display = "block";
+                    }
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                </script>
             </div>
         </section>
     </div>
-    <!--<div class="popover-information">
-        <section id="popover-text"></section>
-    </div>-->
     <script src="./libs/proj4js/proj4-src.js"></script>
     <script src="./libs/proj4js/proj4.js"></script>
     <script src="./libs/v6.9.0-dist/ol.js"></script>
