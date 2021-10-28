@@ -201,10 +201,10 @@ function init(){
 
     map.addLayer(sampleLayerGeoJSON);
 
-    //Function to get Coordinates from map
+    /*//Function to get Coordinates from map
     map.on('click', function(e){
         console.log(e.coordinate)
-    })
+    })*/
 
     ////Feature hover logic/////////
     /*const popoverTextElement = document.getElementById('popover-text');
@@ -228,5 +228,61 @@ function init(){
             map.getViewport().style.cursor = '';
         }
     })
+
+
+    ////Feature click
+    const navElements = document.querySelectorAll('.dropdown-content > .container > input[type=checkbox]');
+    
+
+
+    const mapView = map.getView();
+    map.on('singleclick', function(evt){
+        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+            let featureName = feature.get('Helyseg');
+            displayFeatureInfo(feature)
+            //let navElement = navElements.children.namedItem(featureName)
+            //console.log(feature);
+            //console.log(navElements);
+            
+        })
+    })
+
+    function displayFeatureInfo(feature){
+        const cityNameElement = document.getElementById('cityname');
+        const cityImageElement = document.getElementById('cityimage');
+        const lightboxImageElement = document.getElementById('img2');
+        const sampleCityElement = document.getElementById('sampleCity');
+        const sampleTagElement = document.getElementById('sampleTag');
+        const sampleFractionElement = document.getElementById('sampleFraction');
+        const sampleAreaElement = document.getElementById('sampleArea');
+        const sampleDeptElement = document.getElementById('sampleDept');
+        const sampleSoilElement = document.getElementById('sampleSoilType');
+        const sampleDescriptionElement = document.getElementById('sampleDescription');
+        const standardCityName = 'Választott talajminta adatai: ';
+        const standardCityImage = './data/static_images/description.png';
+        const standardLightboxImage = 'background-image: url(\'./data/static_images/description.png\')';
+        const featureName = feature.get('Helyseg');
+        const featureIMG = feature.get('Foto');
+        //console.log(featureIMG);
+        if(featureName !== undefined){
+            cityNameElement.innerHTML = 'Település: ' + feature.get('Helyseg');
+            cityImageElement.setAttribute('src', './data/static_images/pics/' + featureIMG + '.jpg');
+            lightboxImageElement.setAttribute('style', 'background-image: url(\'./data/static_images/pics/' + featureIMG + '.jpg\')');
+            //sampleCityElement.innerHTML = 'Település: ' + feature.get('Helyseg');
+            sampleTagElement.innerHTML = 'Erdőtag: ' + feature.get('Tag');
+            sampleFractionElement.innerHTML = 'Erdőrészlet: ' + feature.get('Reszlet');
+            sampleAreaElement.innerHTML = 'Terület: ' + feature.get('Terulet') + ' ha';
+            sampleDeptElement.innerHTML = 'Termőréteg mélység: ' + feature.get('Melyseg');
+            sampleSoilElement.innerHTML = 'Talajtípus: ' + feature.get('Talajtipus');
+            sampleDescriptionElement.innerHTML = 'Leírás: ' + feature.get('Leiras');
+            
+        }else{
+            cityNameElement.innerHTML = standardCityName;
+            cityImageElement.setAttribute('src', standardCityImage);
+            lightboxImageElement.setAttribute('style', standardLightboxImage);
+
+        }
+        
+    }
 
 }

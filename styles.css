@@ -116,17 +116,17 @@ section.column-menu {
 
 #cityname {
     position: relative;
-    top: 10%;
+    /*top: 10%;*/
     width: 100%;
-    height: 20%;
+    height: 100%;
     text-align: center;
-    font-size: 25px;
+    font-size: 18px;
     font-family: Arial;
     color: white;
 }
 
 .sampleDescription {
-    padding: 2em;
+    padding: 0;
     color: white;
     font-family: Arial;
     font-size: 14px;
