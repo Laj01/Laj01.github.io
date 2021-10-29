@@ -38,7 +38,7 @@ function init(){
     const bingMapsLayer = new ol.layer.Tile({
         source: new ol.source.BingMaps({
             key: 'AooQSoNEEwyuUHIL2fBzcaO5K4thsxum0Y1feSzsc6SRJOJEI7uzHfVzVJZRPni_',
-            imagerySet: 'Aerial'
+            imagerySet: 'AerialWithLabels'
         }),
         visible: false,
         title: 'BingTileLayer'
@@ -67,7 +67,7 @@ function init(){
     /////////////////////////////////////////
     ////Layer switcher logic for base layers
     const baseLayerElements = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=radio]')
-    console.log(baseLayerElements)
+    //console.log(baseLayerElements)
 
     for (let baseLayerElement of baseLayerElements) {
         baseLayerElement.addEventListener('change', function(){
