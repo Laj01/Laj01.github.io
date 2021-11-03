@@ -67,8 +67,6 @@ function init(){
     /////////////////////////////////////////
     ////Layer switcher logic for base layers
     const baseLayerElements = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=radio]')
-    //console.log(baseLayerElements)
-
     for (let baseLayerElement of baseLayerElements) {
         baseLayerElement.addEventListener('change', function(){
             let baseLayerElementValue = this.value;
@@ -178,7 +176,7 @@ function init(){
     //Style for Vas megye GeoJSON
     const vasStyle = new ol.style.Style({        
         stroke: new ol.style.Stroke({
-            color: [255, 0, 0],
+            color: [0, 0, 255],
             width: 3,
         })
     })
@@ -193,7 +191,29 @@ function init(){
     })
     map.addLayer(vasLayerGeoJSON);
 
-    //Sample GeoJSON
+
+    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
+    let selectedSampleCityName;
+    const styleSelector = function(feature){        
+        let sampleCityName = feature.get('Helyseg');
+
+        for(let allTheCheckbox of allTheCheckboxes){
+            allTheCheckbox.addEventListener('change', function(){
+                selectedSampleCityName = this.id;                               
+            })
+        }
+        if(sampleCityName === selectedSampleCityName){
+            feature.setStyle([sampleCityStyle])
+        }
+        if(sampleCityName === selectedSampleCityName){
+            feature.setStyle([sampleDepthStyle])
+        }
+        if(sampleCityName === selectedSampleCityName){
+            feature.setStyle([sampleSoilStyle])
+        }
+    }
+
+    //Sample GeoJSON LAYER
     const sampleLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON({
@@ -203,7 +223,7 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: sampleSoilStyle
+        style: sampleDepthStyle
     })
 
     map.addLayer(sampleLayerGeoJSON);
@@ -242,10 +262,13 @@ function init(){
     const mapView = map.getView();
 
     map.on('singleclick', function(evt){
-        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
-            let featureName = feature.get('Helyseg');
-            displayFeatureInfo(feature)
-            //let navElement = navElements.children.namedItem(featureName)         
+        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){            
+            displayFeatureInfo(feature);
+            zoomToClickedFeature(feature);
+
+            let sampleLayerGeoJSONFeatures = sampleLayerGeoJSON.getSource().getFeatures(); //returns an array
+            sampleLayerGeoJSONFeatures.forEach(function(feature){feature.setStyle(sampleDepthStyle)})
+            feature.setStyle(sampleStyle)            
         })
     })
 
@@ -281,20 +304,11 @@ function init(){
             cityImageElement.setAttribute('src', standardCityImage);
             lightboxImageElement.setAttribute('style', standardLightboxImage);
 
-        }
-        
+        }        
+    }    
+
+    function zoomToClickedFeature(feature){
+        let featureCoordinates = feature.get('geometry').getCoordinates();
+        mapView.animate({center: featureCoordinates}, {zoom: 14})
     }
-
-    //////////////////////////////////////////
-    ////Település+Mélység+Típus selector logic
-    //////////////////////////////////////////
-
-    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
-    for(let allTheCheckbox of allTheCheckboxes){
-        allTheCheckbox.addEventListener('change', function(){
-            console.log(this.id);
-            console.log(sampleLayerGeoJSON.getKeys());
-        })
-    }
-
 }
