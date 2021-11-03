@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 
 .grid-container {
@@ -20,14 +21,13 @@ section.navbar {
     grid-area: navbar;
     overflow: hidden;
     background-color: rgb(0, 80, 5);
-    font-family: Arial;
+    font: 1em Arial;
     text-align: center;
     min-height: 37px;
 }
 
 section.navbar label {
     float: none;
-    font-size: 14;
     color: white;
     text-align: left;
     padding: 5px 5px;
@@ -40,14 +40,12 @@ section.navbar label {
 }
 
 .dropdown .dropbtn {
-    font-size: 15;
     border: none;
     outline: none;
     color: white;
-    padding: 10px 10px;
+    padding: 11px 11px;
     background-color: inherit;
-    font-family: inherit;
-    margin: 0;
+    font: inherit;
 }
 
 .navbar label:hover,
@@ -86,6 +84,11 @@ main {
     grid-area: main;
 }
 
+.column-map {
+    width: 100%;
+    height: 100%;
+}
+
 section.title-menu {
     grid-area: title-menu;
     background-color: rgb(0, 80, 5);
@@ -119,7 +122,6 @@ section.column-menu {
 
 #cityname {
     position: relative;
-    /*top: 10%;*/
     width: 100%;
     height: 100%;
     text-align: center;

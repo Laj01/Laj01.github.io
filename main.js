@@ -168,6 +168,13 @@ function init(){
         })
     })
 
+    /////INVISIBLE
+    const invisibleStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: [0, 0, 0, 0]
+        })
+    })
+
     //Style for Vas megye GeoJSON
     const vasStyle = new ol.style.Style({        
         stroke: new ol.style.Stroke({
@@ -196,7 +203,7 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: [sampleSoilStyle, sampleCityStyle, sampleDepthStyle]
+        style: sampleSoilStyle
     })
 
     map.addLayer(sampleLayerGeoJSON);
@@ -232,8 +239,8 @@ function init(){
 
     ////Feature click
     const navElements = document.querySelectorAll('.dropdown-content > .container > input[type=checkbox]');
-
     const mapView = map.getView();
+
     map.on('singleclick', function(evt){
         map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
             let featureName = feature.get('Helyseg');
@@ -245,8 +252,7 @@ function init(){
     function displayFeatureInfo(feature){
         const cityNameElement = document.getElementById('cityname');
         const cityImageElement = document.getElementById('cityimage');
-        const lightboxImageElement = document.getElementById('img2');
-        const sampleCityElement = document.getElementById('sampleCity');
+        const lightboxImageElement = document.getElementById('img2');        
         const sampleTagElement = document.getElementById('sampleTag');
         const sampleFractionElement = document.getElementById('sampleFraction');
         const sampleAreaElement = document.getElementById('sampleArea');
@@ -255,19 +261,19 @@ function init(){
         const sampleDescriptionElement = document.getElementById('extendedInformation');
         const standardCityName = 'Válasszon mintát!';
         const standardCityImage = './data/static_images/description.png';
-        const standardLightboxImage = 'background-image: url(\'./data/static_images/description.png\')';
+        const standardLightboxImage = `background-image: url('./data/static_images/description.png')`;
         const featureName = feature.get('Helyseg');
         const featureIMG = feature.get('Foto');
         
-        if(featureName !== undefined){
-            cityNameElement.innerHTML = 'Település: ' + feature.get('Helyseg');
-            cityImageElement.setAttribute('src', './data/static_images/pics/' + featureIMG + '.jpg');
-            lightboxImageElement.setAttribute('style', 'background-image: url(\'./data/static_images/pics/' + featureIMG + '.jpg\')');
-            sampleTagElement.innerHTML = 'Erdőtag: ' + feature.get('Tag');
-            sampleFractionElement.innerHTML = 'Erdőrészlet: ' + feature.get('Reszlet');
-            sampleAreaElement.innerHTML = 'Terület: ' + feature.get('Terulet') + ' ha';
-            sampleDeptElement.innerHTML = 'Termőréteg mélység: ' + feature.get('Melyseg');
-            sampleSoilElement.innerHTML = 'Talajtípus: ' + feature.get('Talajtipus');
+        if(featureName !== undefined){            
+            cityImageElement.setAttribute('src', `./data/static_images/pics/${featureIMG}.jpg`);
+            lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/pics/${featureIMG}.jpg')`);
+            cityNameElement.innerHTML = `Település:  ${feature.get('Helyseg')}`;
+            sampleTagElement.innerHTML = `Erdőtag: ${feature.get('Tag')}`;
+            sampleFractionElement.innerHTML = `Erdőrészlet: ${feature.get('Reszlet')}`;
+            sampleAreaElement.innerHTML = `Terület:  ${feature.get('Terulet')} ha`;
+            sampleDeptElement.innerHTML = `Termőréteg mélység: ${feature.get('Melyseg')}`;
+            sampleSoilElement.innerHTML = `Talajtípus: ${feature.get('Talajtipus')}`;
             sampleDescriptionElement.innerHTML = feature.get('Leiras');
             
         }else{
@@ -277,6 +283,18 @@ function init(){
 
         }
         
+    }
+
+    //////////////////////////////////////////
+    ////Település+Mélység+Típus selector logic
+    //////////////////////////////////////////
+
+    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
+    for(let allTheCheckbox of allTheCheckboxes){
+        allTheCheckbox.addEventListener('change', function(){
+            console.log(this.id);
+            console.log(sampleLayerGeoJSON.getKeys());
+        })
     }
 
 }
