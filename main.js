@@ -191,26 +191,39 @@ function init(){
     })
     map.addLayer(vasLayerGeoJSON);
 
+/////////////////SWITCH STATEMENT???? case1, case2
+    var selectedCity;
+    var selectedDept;
+    var selectedSoil;
+    var selectedChechbox;
+    const styleChangerLogic = function(feature){
+        selectedCity = feature.get('Helyseg');
+        selectedDept = feature.get('Melyseg');
+        selectedSoil = feature.get('Talajtipus');
+
+        if(selectedCity === selectedChechbox){
+            feature.setStyle(sampleCityStyle)
+        }
+        else if(selectedDept === selectedChechbox){
+            feature.setStyle(sampleDepthStyle)
+        }
+        else if(selectedSoil === selectedChechbox){
+            feature.setStyle(sampleSoilStyle)
+        }else{feature.setStyle()}
+    }
+
 
     const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
-    let selectedSampleCityName;
-    const styleSelector = function(feature){        
-        let sampleCityName = feature.get('Helyseg');
-
-        for(let allTheCheckbox of allTheCheckboxes){
-            allTheCheckbox.addEventListener('change', function(){
-                selectedSampleCityName = this.id;                               
-            })
-        }
-        if(sampleCityName === selectedSampleCityName){
-            feature.setStyle([sampleCityStyle])
-        }
-        if(sampleCityName === selectedSampleCityName){
-            feature.setStyle([sampleDepthStyle])
-        }
-        if(sampleCityName === selectedSampleCityName){
-            feature.setStyle([sampleSoilStyle])
-        }
+    for(let allTheCheckbox of allTheCheckboxes){
+        allTheCheckbox.addEventListener('change', function(){            
+            if(this.checked){
+                selectedChechbox = this.id;
+                console.log(selectedChechbox);               
+            }else{                
+                //console.log(selectedChechbox)
+            }
+            //console.log(selectedChechbox)
+        })            
     }
 
     //Sample GeoJSON LAYER
@@ -223,52 +236,38 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: sampleDepthStyle
+        style: styleChangerLogic
     })
-
     map.addLayer(sampleLayerGeoJSON);
-
-    /*//Function to get Coordinates from map
-    map.on('click', function(e){
-        console.log(e.coordinate)
-    })*/
-
-    ////Feature hover logic/////////
-    /*const popoverTextElement = document.getElementById('popover-text');
-    const popoverTextLayer = new ol.Overlay({
-        element: popoverTextElement,
-        positioning: 'bottom-center',
-        stopEvent: false
-    })
-    map.addOverlay(popoverTextLayer);*/
 
     map.on('pointermove', function(evt){
         let isFeatureAtPixel = map.hasFeatureAtPixel(evt.pixel);
         if(isFeatureAtPixel){
-            //let featureAtPixel = map.getFeaturesAtPixel(evt.pixel);
-            //let featureName = featureAtPixel[0].get('Tag');
-            //popoverTextLayer.setPosition(evt.coordinate);
-            //popoverTextElement.innerHTML = featureName;
             map.getViewport().style.cursor = 'pointer';
-        }else{            
-            //popoverTextLayer.setPosition(undefined);
+        }else{
             map.getViewport().style.cursor = '';
         }
     })
 
-
-    ////Feature click
-    const navElements = document.querySelectorAll('.dropdown-content > .container > input[type=checkbox]');
+    ////Feature click on MAP   
     const mapView = map.getView();
 
-    map.on('singleclick', function(evt){
-        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){            
-            displayFeatureInfo(feature);
-            zoomToClickedFeature(feature);            
 
-            /*let sampleLayerGeoJSONFeatures = sampleLayerGeoJSON.getSource().getFeatures(); //returns an array
-            sampleLayerGeoJSONFeatures.forEach(function(feature){feature.setStyle(sampleDepthStyle)})
-            feature.setStyle(sampleStyle)*/
+    /*const selectInteraction = new ol.interaction.Select({
+        condition: ol.events.condition.singleClick,
+        style: sampleStyle
+    })
+    map.addInteraction(selectInteraction)*/
+
+    map.on('singleclick', function(evt){
+        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+            try {
+                displayFeatureInfo(feature);
+                zoomToClickedFeature(feature);
+            } catch (err) {
+                console.log(`Error has occured: ${err}`)
+            }
+            
         })
     })
 
@@ -307,16 +306,12 @@ function init(){
         }        
     }    
 
-    function zoomToClickedFeature(feature){
-        let featureCoordinates = feature.get('geometry').getCoordinates();
-        mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
+    function zoomToClickedFeature(feature){        
+            let featureCoordinates = feature.get('geometry').getCoordinates();
+            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})        
     }
 
-    const selectInteraction = new ol.interaction.Select({
-        condition: ol.events.condition.singleClick,
-        style: sampleStyle
-    })
-    map.addInteraction(selectInteraction)
+
 
     /*OL SCALELINE*/
     const scaleLineControl = new ol.control.ScaleLine({bar: true});
