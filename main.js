@@ -80,27 +80,27 @@ function init(){
 
     //Style for the sample data
     const sampleStyle = function(feature){
-        let sampleID = feature.get('ID');
-        let sampleIDString = sampleID.toString();
+        //let sampleID = feature.get('ID');
+        //let sampleIDString = sampleID.toString();
         const styles = [
             new ol.style.Style({
                 image: new ol.style.Circle({
                     fill: new ol.style.Fill({
-                        color: [77, 219, 105, 0.6]
+                        color: [219, 77, 105, 0.6]
                     }),
                     stroke: new ol.style.Stroke({
-                        color: [6, 125, 35, 1],
+                        color: [125, 6, 35, 1],
                         width: 2
                     }),
                     radius: 12
                 }),
-                text: new ol.style.Text({
-                    text: sampleIDString,
+                /*text: new ol.style.Text({
+                    //text: sampleIDString,
                     scale: 1,
                     fill: new ol.style.Fill({
                         color: [232, 26, 26, 1]
                     })
-                }),
+                }),*/
                 stroke: new ol.style.Stroke({
                     color: [232, 26, 26, 1],
                     width: 0.3
@@ -264,11 +264,11 @@ function init(){
     map.on('singleclick', function(evt){
         map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){            
             displayFeatureInfo(feature);
-            zoomToClickedFeature(feature);
+            zoomToClickedFeature(feature);            
 
-            let sampleLayerGeoJSONFeatures = sampleLayerGeoJSON.getSource().getFeatures(); //returns an array
+            /*let sampleLayerGeoJSONFeatures = sampleLayerGeoJSON.getSource().getFeatures(); //returns an array
             sampleLayerGeoJSONFeatures.forEach(function(feature){feature.setStyle(sampleDepthStyle)})
-            feature.setStyle(sampleStyle)            
+            feature.setStyle(sampleStyle)*/
         })
     })
 
@@ -309,6 +309,14 @@ function init(){
 
     function zoomToClickedFeature(feature){
         let featureCoordinates = feature.get('geometry').getCoordinates();
-        mapView.animate({center: featureCoordinates}, {zoom: 14})
+        mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
     }
+
+    const selectInteraction = new ol.interaction.Select({
+        condition: ol.events.condition.singleClick,
+        style: sampleStyle
+    })
+    map.addInteraction(selectInteraction)
+
+
 }
