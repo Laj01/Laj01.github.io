@@ -318,5 +318,7 @@ function init(){
     })
     map.addInteraction(selectInteraction)
 
-
+    /*OL SCALELINE*/
+    const scaleLineControl = new ol.control.ScaleLine({bar: true});
+    map.addControl(scaleLineControl);
 }
