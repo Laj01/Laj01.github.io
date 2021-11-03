@@ -208,3 +208,17 @@ section.column-menu {
     text-decoration: none;
     cursor: pointer;
 }
+
+/*OPENLAYERS controls*/
+
+.ol-control button {
+    background-color: rgb(0, 80, 5, 0.6);
+}
+
+.ol-control button:hover {
+    background-color: rgb(0, 80, 5);
+}
+
+.ol-control button:focus {
+    background-color: rgb(0, 80, 5, 0.8);
+}
