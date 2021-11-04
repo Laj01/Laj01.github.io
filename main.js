@@ -79,36 +79,18 @@ function init(){
 
 
     //Style for the sample data
-    const sampleStyle = function(feature){
-        //let sampleID = feature.get('ID');
-        //let sampleIDString = sampleID.toString();
-        const styles = [
-            new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: [219, 77, 105, 0.6]
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: [125, 6, 35, 1],
-                        width: 2
-                    }),
-                    radius: 12
-                }),
-                /*text: new ol.style.Text({
-                    //text: sampleIDString,
-                    scale: 1,
-                    fill: new ol.style.Fill({
-                        color: [232, 26, 26, 1]
-                    })
-                }),*/
-                stroke: new ol.style.Stroke({
-                    color: [232, 26, 26, 1],
-                    width: 0.3
-                })
-            })
-        ]
-        return styles
-    }
+    const sampleStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                color: [219, 77, 105, 0.6]
+            }),
+            stroke: new ol.style.Stroke({
+                color: [125, 6, 35, 1],
+                width: 2
+            }),
+            radius: 12
+        })
+    })
 
     //Cross style for points
     const crossStyle = new ol.style.Style({
@@ -253,11 +235,7 @@ function init(){
     const mapView = map.getView();
 
 
-    /*const selectInteraction = new ol.interaction.Select({
-        condition: ol.events.condition.singleClick,
-        style: sampleStyle
-    })
-    map.addInteraction(selectInteraction)*/
+    
 
     map.on('singleclick', function(evt){
         map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
@@ -287,7 +265,7 @@ function init(){
         const featureName = feature.get('Helyseg');
         const featureIMG = feature.get('Foto');
         
-        if(featureName !== undefined){            
+        if(featureName != undefined){            
             cityImageElement.setAttribute('src', `./data/static_images/pics/${featureIMG}.jpg`);
             lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/pics/${featureIMG}.jpg')`);
             cityNameElement.innerHTML = `Település:  ${feature.get('Helyseg')}`;
@@ -305,6 +283,15 @@ function init(){
 
         }        
     }    
+
+    const selectInteraction = new ol.interaction.Select({
+        condition: ol.events.condition.singleClick,
+        layers: function(layer){
+            return layer.get('title') === 'SampleData';
+        },
+        style: sampleStyle
+    })
+    map.addInteraction(selectInteraction)
 
     function zoomToClickedFeature(feature){        
             let featureCoordinates = feature.get('geometry').getCoordinates();
