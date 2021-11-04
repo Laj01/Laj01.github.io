@@ -258,14 +258,11 @@ function init(){
         const sampleAreaElement = document.getElementById('sampleArea');
         const sampleDeptElement = document.getElementById('sampleDept');
         const sampleSoilElement = document.getElementById('sampleSoilType');
-        const sampleDescriptionElement = document.getElementById('extendedInformation');
-        const standardCityName = 'Válasszon mintát!';
-        const standardCityImage = './data/static_images/description.png';
-        const standardLightboxImage = `background-image: url('./data/static_images/description.png')`;
+        const sampleDescriptionElement = document.getElementById('extendedInformation'); 
         const featureName = feature.get('Helyseg');
         const featureIMG = feature.get('Foto');
         
-        if(featureName != undefined){            
+        if(featureName != undefined && featureName != null){            
             cityImageElement.setAttribute('src', `./data/static_images/pics/${featureIMG}.jpg`);
             lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/pics/${featureIMG}.jpg')`);
             cityNameElement.innerHTML = `Település:  ${feature.get('Helyseg')}`;
@@ -277,10 +274,15 @@ function init(){
             sampleDescriptionElement.innerHTML = feature.get('Leiras');
             
         }else{
-            cityNameElement.innerHTML = standardCityName;
-            cityImageElement.setAttribute('src', standardCityImage);
-            lightboxImageElement.setAttribute('style', standardLightboxImage);
-
+            cityImageElement.setAttribute('src', './data/static_images/description.png');
+            lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/description.png')`);
+            cityNameElement.innerHTML = 'Válasszon mintát!';
+            sampleTagElement.innerHTML = `Erdőtag: `;
+            sampleFractionElement.innerHTML = `Erdőrészlet: `;
+            sampleAreaElement.innerHTML = `Terület:  `;
+            sampleDeptElement.innerHTML = `Termőréteg mélység: `;
+            sampleSoilElement.innerHTML = `Talajtípus: `;
+            sampleDescriptionElement.innerHTML = 'Válasszon ki egy mintát a térképről.';
         }        
     }    
 
@@ -293,9 +295,10 @@ function init(){
     })
     map.addInteraction(selectInteraction)
 
+    /*OL VIEW ANIMATION ON CLICKED FEATURE*/
     function zoomToClickedFeature(feature){        
-            let featureCoordinates = feature.get('geometry').getCoordinates();
-            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})        
+            let featureCoordinates = feature.get('geometry').getCoordinates();            
+            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
     }
 
 
