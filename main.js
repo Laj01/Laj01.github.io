@@ -24,17 +24,16 @@ function init(){
         keyboardEventTarget: document
     })
 
-    //////////////////////////////////
-    /////Base Layers/////////////////
-
-    ////OSM//////////////////////////
+    
+    //// Base Layers
+    // OSM Layer
     const openStreetMapLayer = new ol.layer.Tile({
         source: new ol.source.OSM(),        
         visible: true,
         title: 'OSMTileLayer'        
     })
 
-    ////Bing Maps///////////////////
+    // Bing Maps Layer
     const bingMapsLayer = new ol.layer.Tile({
         source: new ol.source.BingMaps({
             key: 'AooQSoNEEwyuUHIL2fBzcaO5K4thsxum0Y1feSzsc6SRJOJEI7uzHfVzVJZRPni_',
@@ -44,7 +43,7 @@ function init(){
         title: 'BingTileLayer'
     })
 
-    ////Stamen base layers/////////////
+    //StamenTile layer
     const stamenMapLayer = new ol.layer.Tile({
         source: new ol.source.Stamen({
             layer: 'terrain',
@@ -54,7 +53,7 @@ function init(){
         title: 'StamenTileLayer'
     })
 
-    ////Layer group////////////////////
+    // Layer group
     const baseLayerGroup = new ol.layer.Group({
         layers: [
             openStreetMapLayer,
@@ -63,9 +62,8 @@ function init(){
         ]
     })
     map.addLayer(baseLayerGroup)
-
-    /////////////////////////////////////////
-    ////Layer switcher logic for base layers
+    
+    // Layer switcher logic for baseLayerGroup
     const baseLayerElements = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=radio]')
     for (let baseLayerElement of baseLayerElements) {
         baseLayerElement.addEventListener('change', function(){
@@ -77,8 +75,8 @@ function init(){
         })        
     }
 
-
-    //Style for the sample data
+    //// Vector styles
+    // Style for selected vector feature on map
     const sampleStyle = new ol.style.Style({
         image: new ol.style.Circle({
             fill: new ol.style.Fill({
@@ -92,7 +90,7 @@ function init(){
         })
     })
 
-    //Cross style for points
+    // Cross style point features
     const crossStyle = new ol.style.Style({
         image: new ol.style.RegularShape({
             fill: new ol.style.Fill({}),
@@ -106,7 +104,7 @@ function init(){
           })
     })
 
-    //Style based on selected cities
+    // City style for point features
     const sampleCityStyle = new ol.style.Style({
         image: new ol.style.Circle({
             fill: new ol.style.Fill({
@@ -114,13 +112,13 @@ function init(){
             }),
             stroke: new ol.style.Stroke({
                 color: [255, 0, 0, 1],
-                width: 3.5
+                width: 3
             }),
             radius: 9
         })
     })  
 
-    //Style based on selected depth
+    // Dept style for point features
     const sampleDepthStyle = new ol.style.Style({
         image: new ol.style.Circle({
             fill: new ol.style.Fill({
@@ -128,13 +126,13 @@ function init(){
             }),
             stroke: new ol.style.Stroke({
                 color: [255, 128, 0, 1],
-                width: 3.5
+                width: 3
             }),
             radius: 6
         })
     })
 
-    //Style based on selected soil type
+    // Soil style for point features
     const sampleSoilStyle = new ol.style.Style({
         image: new ol.style.Circle({
             fill: new ol.style.Fill({
@@ -142,20 +140,18 @@ function init(){
             }),
             stroke: new ol.style.Stroke({
                 //color: [255, 255, 0, 0.8],
-                width: 4
+                width: 3
             }),
-            radius: 4
+            radius: 3
         })
     })
 
-    /////INVISIBLE
+    // Invisible style for point features
     const invisibleStyle = new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: [0, 0, 0, 0]
-        })
+        image: new ol.style.Circle({})
     })
 
-    //Style for Vas megye GeoJSON
+    // Style for Vas megye GeoJSON
     const vasStyle = new ol.style.Style({        
         stroke: new ol.style.Stroke({
             color: [0, 0, 255],
@@ -163,7 +159,7 @@ function init(){
         })
     })
 
-    //Vas megye GeoJSON
+    // Vas megye GeoJSON
     const vasLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON(),
@@ -173,42 +169,8 @@ function init(){
     })
     map.addLayer(vasLayerGeoJSON);
 
-/////////////////SWITCH STATEMENT???? case1, case2
-    var selectedCity;
-    var selectedDept;
-    var selectedSoil;
-    var selectedChechbox;
-    const styleChangerLogic = function(feature){
-        selectedCity = feature.get('Helyseg');
-        selectedDept = feature.get('Melyseg');
-        selectedSoil = feature.get('Talajtipus');
-
-        if(selectedCity === selectedChechbox){
-            feature.setStyle(sampleCityStyle)
-        }
-        else if(selectedDept === selectedChechbox){
-            feature.setStyle(sampleDepthStyle)
-        }
-        else if(selectedSoil === selectedChechbox){
-            feature.setStyle(sampleSoilStyle)
-        }else{feature.setStyle()}
-    }
-
-
-    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
-    for(let allTheCheckbox of allTheCheckboxes){
-        allTheCheckbox.addEventListener('change', function(){            
-            if(this.checked){
-                selectedChechbox = this.id;
-                console.log(selectedChechbox);               
-            }else{                
-                //console.log(selectedChechbox)
-            }
-            //console.log(selectedChechbox)
-        })            
-    }
-
-    //Sample GeoJSON LAYER
+    
+    // Sample GeoJSON LAYER
     const sampleLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON({
@@ -218,10 +180,73 @@ function init(){
         }),
         visible: true,
         title: 'SampleData',
-        style: styleChangerLogic
+        style: invisibleStyle
     })
     map.addLayer(sampleLayerGeoJSON);
 
+    ///////////////////////////////////////////
+    //// Style function for smaple vector layer 
+    ///////////////////////////////////////////
+    let selectedCity    
+    let selectedDept;
+    let selectedSoil;
+    let selectedChechbox;
+    let styleArray = [];
+    function uniqueStyleArray(data){ return data.filter((value, index) => data.indexOf(value) === index)}  
+    function removeDeptFromUniqueStyleArray(arr, value) {
+        var index = arr.indexOf(value);
+        if (index > -1) {
+          arr.splice(index, 1);
+        }
+        return arr;
+      }
+      
+    const styleChangerLogic = function(feature){
+        selectedCity = feature.get('Helyseg');        
+        if(selectedChechbox === selectedCity){            
+           /* styleArray.push(sampleCityStyle);
+            console.log(styleArray);
+            styleArray = uniqueStyleArray(styleArray);
+            console.log(styleArray);
+            feature.setStyle(styleArray);  */ 
+            //console.log(selectedCity);
+            return sampleCityStyle;            
+        }        
+    }
+
+    const styleDeleterLogic = function(feature){         
+        console.log(selectedChechbox);
+        console.log(selectedCity);
+
+        if(selectedChechbox === selectedCity){
+            feature.setStyle(invisibleStyle)            
+        }            
+        /*if(selectedChechbox === selectedCity){
+            console.log(`deleting feature ${selectedChechbox}`) 
+            console.log(removeDeptFromUniqueStyleArray(styleArray, sampleCityStyle));
+        } */      
+        
+    }
+
+
+    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
+    for(let allTheCheckbox of allTheCheckboxes){             
+        allTheCheckbox.addEventListener('change', function(){            
+            if(allTheCheckbox.checked){ 
+                selectedChechbox = allTheCheckbox.id;               
+                sampleLayerGeoJSON.setStyle(styleChangerLogic)                                              
+            }else{
+                sampleLayerGeoJSON.setStyle(null)                                          
+            }
+        })        
+    }
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+
+
+    
+    // Cursor style for feature detection on map
     map.on('pointermove', function(evt){
         let isFeatureAtPixel = map.hasFeatureAtPixel(evt.pixel);
         if(isFeatureAtPixel){
@@ -231,12 +256,8 @@ function init(){
         }
     })
 
-    ////Feature click on MAP   
+    // Feature click on MAP   
     const mapView = map.getView();
-
-
-    
-
     map.on('singleclick', function(evt){
         map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
             try {
@@ -244,11 +265,11 @@ function init(){
                 zoomToClickedFeature(feature);
             } catch (err) {
                 console.log(`Error has occured: ${err}`)
-            }
-            
+            }            
         })
     })
 
+    // set content of class="sampleDescription" HTML element
     function displayFeatureInfo(feature){
         const cityNameElement = document.getElementById('cityname');
         const cityImageElement = document.getElementById('cityimage');
@@ -286,6 +307,7 @@ function init(){
         }        
     }    
 
+    // Map interaction on selecting a feature
     const selectInteraction = new ol.interaction.Select({
         condition: ol.events.condition.singleClick,
         layers: function(layer){
@@ -295,15 +317,13 @@ function init(){
     })
     map.addInteraction(selectInteraction)
 
-    /*OL VIEW ANIMATION ON CLICKED FEATURE*/
+    // Map animation on selecting a feature
     function zoomToClickedFeature(feature){        
             let featureCoordinates = feature.get('geometry').getCoordinates();            
             mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
     }
 
-
-
-    /*OL SCALELINE*/
+    // Scale line control
     const scaleLineControl = new ol.control.ScaleLine({bar: true});
     map.addControl(scaleLineControl);
 }

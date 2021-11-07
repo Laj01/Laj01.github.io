@@ -9,7 +9,7 @@ body {
     margin: 0;
     height: 100vh;
     grid-template-columns: 1fr 0.4fr;
-    grid-template-rows: 1fr 1fr 6fr 8fr;
+    grid-template-rows: 40px 1fr 6fr 8fr;
     grid-template-areas:
         "navbar navbar"
         "main title-menu"
@@ -24,6 +24,7 @@ section.navbar {
     font: 1em Arial;
     text-align: center;
     min-height: 37px;
+    max-height: 40px;
 }
 
 section.navbar label {
@@ -57,7 +58,8 @@ section.navbar label {
     border-radius: 2px 2px 2px 2px;
 }
 
-.dropdown-content {
+.dropdown-content,
+.dropdown-content-dept {
     display: none;
     position: absolute;
     background-color: rgb(0, 120, 5, .9);
@@ -67,7 +69,8 @@ section.navbar label {
     border-radius: 2px 2px 2px 2px;
 }
 
-.dropdown-content label {
+.dropdown-content label,
+.dropdown-content-dept label {
     float: none;
     color: white;
     padding: 5px 5px;
@@ -76,7 +79,8 @@ section.navbar label {
     text-align: left;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.dropdown:hover .dropdown-content-dept {
     display: block;
 }
 
