@@ -69,7 +69,7 @@ function init(){
         layers: [
             openStreetMapLayer,
             openStreetMapHumanitarianLayer,
-            stamenMapLayer
+            bingMapsLayer
         ]
     })
     map.addLayer(baseLayerGroup)
@@ -243,7 +243,7 @@ function init(){
             return sampleDepthStyle
         }else if(selectedCheckbox === selectedSoil){
             //feature.setStyle(sampleSoilStyle);
-            return sampleSoilStyle
+            return [sampleSoilStyle,sampleCityStyle,sampleDepthStyle]
         }
     }
 
@@ -372,7 +372,7 @@ function init(){
     // Map animation on selecting a feature
     function zoomToClickedFeature(feature){        
             let featureCoordinates = feature.get('geometry').getCoordinates();            
-            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
+            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 13})
     }
 
     // Scale line control

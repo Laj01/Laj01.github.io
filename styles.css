@@ -22,7 +22,6 @@ body {
 section.navbar {
     grid-area: navbar;
     overflow: hidden;
-    /*background-color: rgb(0, 80, 5);*/
     font: 1em Arial;
     text-align: center;
     min-height: 37px;
@@ -54,7 +53,8 @@ section.navbar label {
 .navbar label:hover,
 .navbar label:active,
 .dropdown:hover,
-.dropbtn {
+.dropbtn,
+#modalButton:hover {
     background-color: rgb(100, 0, 0);
     transition: background-color 0.2s;
     border-radius: 2px 2px 2px 2px;
@@ -97,7 +97,6 @@ main {
 
 section.title-menu {
     grid-area: title-menu;
-    /*background-color: rgb(0, 80, 5);*/
 }
 
 section.picture-menu {
@@ -215,7 +214,20 @@ section.column-menu {
     cursor: pointer;
 }
 
-/*OPENLAYERS controls*/
+#modalButton {
+    background-color: rgb(0, 50, 5);
+    border: 1px solid white;
+    border-radius: 2px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 16px;
+    padding: 10px 10px;
+    margin-top: 5px;
+}
+
+/*Openlayers controls*/
 
 .ol-control button {
     background-color: rgb(0, 80, 5, 0.6);
