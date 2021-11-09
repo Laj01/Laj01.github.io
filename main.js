@@ -267,12 +267,12 @@ function init(){
     }
 
 
-    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
+    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select > .container > input[type=radio]')
     for(let oneCheckbox of allTheCheckboxes){                
         oneCheckbox.addEventListener('change', function(){ 
                                            
             if(oneCheckbox.checked){                  
-                selectedCheckbox = oneCheckbox.id;
+                selectedCheckbox = oneCheckbox.value;
                 /*               
                 styleArray.push(selectedCheckbox)
                 uniquePlus = uniqueArray(styleArray)
