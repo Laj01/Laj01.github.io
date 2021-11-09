@@ -243,7 +243,7 @@ function init(){
             return sampleDepthStyle
         }else if(selectedCheckbox === selectedSoil){
             //feature.setStyle(sampleSoilStyle);
-            return [sampleSoilStyle,sampleCityStyle,sampleDepthStyle]
+            return sampleSoilStyle
         }
     }
 
