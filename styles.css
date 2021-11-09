@@ -2,6 +2,8 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
+    /*background-image: linear-gradient(to right, rgb(0, 120, 5) 80%, rgb(0, 60, 5));*/
+    background-color: rgb(0, 80, 5);
 }
 
 .grid-container {
@@ -20,7 +22,7 @@ body {
 section.navbar {
     grid-area: navbar;
     overflow: hidden;
-    background-color: rgb(0, 80, 5);
+    /*background-color: rgb(0, 80, 5);*/
     font: 1em Arial;
     text-align: center;
     min-height: 37px;
@@ -58,8 +60,7 @@ section.navbar label {
     border-radius: 2px 2px 2px 2px;
 }
 
-.dropdown-content,
-.dropdown-content-dept {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: rgb(0, 120, 5, .9);
@@ -69,8 +70,7 @@ section.navbar label {
     border-radius: 2px 2px 2px 2px;
 }
 
-.dropdown-content label,
-.dropdown-content-dept label {
+.dropdown-content label {
     float: none;
     color: white;
     padding: 5px 5px;
@@ -79,8 +79,7 @@ section.navbar label {
     text-align: left;
 }
 
-.dropdown:hover .dropdown-content,
-.dropdown:hover .dropdown-content-dept {
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
@@ -95,7 +94,7 @@ main {
 
 section.title-menu {
     grid-area: title-menu;
-    background-color: rgb(0, 80, 5);
+    /*background-color: rgb(0, 80, 5);*/
 }
 
 section.picture-menu {
@@ -120,7 +119,7 @@ section.picture-menu {
 
 section.column-menu {
     grid-area: column-menu;
-    background-color: rgb(0, 80, 5);
+    /*background-color: rgb(0, 80, 5);*/
     padding: 5px;
 }
 

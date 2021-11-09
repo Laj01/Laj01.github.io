@@ -20,7 +20,7 @@ function init(){
             //projection: "EPSG:3857",
             extent: [1739604.2512535667, 5667622.243940988, 2659169.744533458, 6278642.820110521]
         }),        
-        target: "js-map",
+        target: "js-map",        
         keyboardEventTarget: document
     })
 
@@ -32,6 +32,17 @@ function init(){
         visible: true,
         title: 'OSMTileLayer'        
     })
+
+    // OSM Humanitarian
+    const openStreetMapHumanitarianLayer = new ol.layer.Tile({
+        source: new ol.source.OSM({
+            url: 'https://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+        }),        
+        visible: false,
+        title: 'OSMHumanitarianLayer'        
+    })
+
+
 
     // Bing Maps Layer
     const bingMapsLayer = new ol.layer.Tile({
@@ -57,7 +68,7 @@ function init(){
     const baseLayerGroup = new ol.layer.Group({
         layers: [
             openStreetMapLayer,
-            bingMapsLayer,
+            openStreetMapHumanitarianLayer,
             stamenMapLayer
         ]
     })
@@ -116,7 +127,20 @@ function init(){
             }),
             radius: 9
         })
-    })  
+    }) 
+
+    const deleteCityStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                color: [255, 255, 255, 0]
+            }),
+            stroke: new ol.style.Stroke({
+                color: [0, 0, 0, 1],
+                width: 3
+            }),
+            radius: 9
+        })
+    })
 
     // Dept style for point features
     const sampleDepthStyle = new ol.style.Style({
@@ -147,7 +171,12 @@ function init(){
     })
 
     // Invisible style for point features
-    const invisibleStyle = new ol.style.Style({
+    const invisibleStyle1 = new ol.style.Style({
+        image: new ol.style.Circle({})
+    })
+
+    // Invisible style for point features
+    const invisibleStyle2 = new ol.style.Style({
         image: new ol.style.Circle({})
     })
 
@@ -177,66 +206,89 @@ function init(){
                 dataProjection: 'EPSG:23700'
             }),
             url: './data/vector_data/minta.geojson'
-        }),
+        }),       
         visible: true,
         title: 'SampleData',
-        style: invisibleStyle
+        style: null
     })
-    map.addLayer(sampleLayerGeoJSON);
+    map.addLayer(sampleLayerGeoJSON);   
+    
 
     ///////////////////////////////////////////
     //// Style function for smaple vector layer 
-    ///////////////////////////////////////////
-    let selectedCity    
-    let selectedDept;
-    let selectedSoil;
-    let selectedChechbox;
+    ///////////////////////////////////////////    
+    let selectedCheckbox;
+    let isFeatureVisible;
     let styleArray = [];
-    function uniqueStyleArray(data){ return data.filter((value, index) => data.indexOf(value) === index)}  
-    function removeDeptFromUniqueStyleArray(arr, value) {
-        var index = arr.indexOf(value);
+    let uniquePlus = [];  
+    let uniqueMinus = [];  
+    function uniqueArray(data){ return data.filter((value, index) => data.indexOf(value) === index)}  
+    function removeElementFromuniqueArray(arr, value) {
+        let index = arr.indexOf(value);
         if (index > -1) {
           arr.splice(index, 1);
         }
         return arr;
       }
-      
+
     const styleChangerLogic = function(feature){
-        selectedCity = feature.get('Helyseg');        
-        if(selectedChechbox === selectedCity){            
-           /* styleArray.push(sampleCityStyle);
-            console.log(styleArray);
-            styleArray = uniqueStyleArray(styleArray);
-            console.log(styleArray);
-            feature.setStyle(styleArray);  */ 
-            //console.log(selectedCity);
-            return sampleCityStyle;            
-        }        
+        const selectedCity = feature.get('Helyseg');
+        const selectedDepth = feature.get('Melyseg')
+        const selectedSoil = feature.get('Talajtipus')       
+        if(selectedCheckbox === selectedCity || selectedCheckbox === 'Összes'){            
+            //feature.setStyle(sampleCityStyle);
+            return sampleCityStyle
+        }else if(selectedCheckbox === selectedDepth){
+            //feature.setStyle(sampleDepthStyle);
+            return sampleDepthStyle
+        }else if(selectedCheckbox === selectedSoil){
+            //feature.setStyle(sampleSoilStyle);
+            return sampleSoilStyle
+        }
     }
 
-    const styleDeleterLogic = function(feature){         
-        console.log(selectedChechbox);
-        console.log(selectedCity);
+    const soilChangerLogic = function(feature){        
+        selectedSoil = feature.get('Talajtipus');
+        if(selectedCheckbox === selectedSoil){
+            //feature.setStyle(sampleSoilStyle)
+            return sampleSoilStyle
+        }           
+    }
 
-        if(selectedChechbox === selectedCity){
-            feature.setStyle(invisibleStyle)            
-        }            
-        /*if(selectedChechbox === selectedCity){
-            console.log(`deleting feature ${selectedChechbox}`) 
-            console.log(removeDeptFromUniqueStyleArray(styleArray, sampleCityStyle));
-        } */      
-        
+    const styleDeleterLogic = function(feature){ 
+        const vectorFeature =  sampleLayerGeoJSON.getSource().getFeatures()
+        console.log(vectorFeature)    
+        /*if(selectedCheckbox === selectedCity){
+            console.log('vectorFeature')
+            feature.setStyle(new ol.style.Style({
+                image: new ol.style.Circle({})
+            }));        
+        } */           
     }
 
 
     const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content > .container > input[type=checkbox]')
-    for(let allTheCheckbox of allTheCheckboxes){             
-        allTheCheckbox.addEventListener('change', function(){            
-            if(allTheCheckbox.checked){ 
-                selectedChechbox = allTheCheckbox.id;               
-                sampleLayerGeoJSON.setStyle(styleChangerLogic)                                              
+    for(let oneCheckbox of allTheCheckboxes){                
+        oneCheckbox.addEventListener('change', function(){ 
+                                           
+            if(oneCheckbox.checked){                  
+                selectedCheckbox = oneCheckbox.id;
+                /*               
+                styleArray.push(selectedCheckbox)
+                uniquePlus = uniqueArray(styleArray)
+                */               
+                sampleLayerGeoJSON.setStyle(styleChangerLogic);                                              
             }else{
-                sampleLayerGeoJSON.setStyle(null)                                          
+                //selectedCheckbox = oneCheckbox.id;                
+                /*
+                uniqueMinus = removeElementFromuniqueArray(uniquePlus, selectedCheckbox)
+                uniquePlus, styleArray = uniqueMinus
+                */
+                //console.log(removeElementFromuniqueArray(uniqueArray(styleArray), selectedCheckbox))
+                //selectedCity = undefined;
+                //selectedCheckbox = undefined;                
+                sampleLayerGeoJSON.setStyle(invisibleStyle1);                
+                //console.log(sampleSoilGeoJSON.getStyle())                
             }
         })        
     }
