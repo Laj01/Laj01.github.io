@@ -3,13 +3,11 @@
 window.onload = init();
 
 function init(){
+    
 
-    //EPSG:3857 for BaseMap
-    //proj4.defs("EPSG:3857","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
     //EPSG:23700 for Hungary
     proj4.defs("EPSG:23700","+proj=somerc +lat_0=47.14439372222222 +lon_0=19.04857177777778 +k_0=0.99993 +x_0=650000 +y_0=200000 +ellps=GRS67 +towgs84=52.17,-71.82,-14.9,0,0,0,0 +units=m +no_defs");
     ol.proj.proj4.register(proj4);
-
 
     const map = new ol.Map({
         view: new ol.View({
@@ -23,9 +21,8 @@ function init(){
         target: "js-map",        
         keyboardEventTarget: document
     })
-
     
-    //// Base Layers
+    ////// Base Layers //////
     // OSM Layer
     const openStreetMapLayer = new ol.layer.Tile({
         source: new ol.source.OSM(),        
@@ -42,8 +39,6 @@ function init(){
         title: 'OSMHumanitarianLayer'        
     })
 
-
-
     // Bing Maps Layer
     const bingMapsLayer = new ol.layer.Tile({
         source: new ol.source.BingMaps({
@@ -54,22 +49,12 @@ function init(){
         title: 'BingTileLayer'
     })
 
-    //StamenTile layer
-    const stamenMapLayer = new ol.layer.Tile({
-        source: new ol.source.Stamen({
-            layer: 'terrain',
-            attributions: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'            
-        }),
-        visible: false,
-        title: 'StamenTileLayer'
-    })
-
-    // Layer group
+    // Base Layer group
     const baseLayerGroup = new ol.layer.Group({
         layers: [
             openStreetMapLayer,
             openStreetMapHumanitarianLayer,
-            bingMapsLayer
+            bingMapsLayer            
         ]
     })
     map.addLayer(baseLayerGroup)
@@ -86,12 +71,12 @@ function init(){
         })        
     }
 
-    //// Vector styles
+    ////// Vector styles //////
     // Style for selected vector feature on map
-    const sampleStyle = new ol.style.Style({
+    const selectedSampleStyle = new ol.style.Style({
         image: new ol.style.Circle({
             fill: new ol.style.Fill({
-                color: [219, 77, 105, 0.6]
+                color: [219, 77, 105, 1]
             }),
             stroke: new ol.style.Stroke({
                 color: [125, 6, 35, 1],
@@ -99,21 +84,8 @@ function init(){
             }),
             radius: 12
         })
-    })
-
-    // Cross style point features
-    const crossStyle = new ol.style.Style({
-        image: new ol.style.RegularShape({
-            fill: new ol.style.Fill({}),
-            stroke: new ol.style.Stroke({                
-                width:2
-            }),
-            points: 4,
-            radius: 10,
-            radius2: 0,
-            angle: Math.PI / 4,
-          })
-    })
+    })   
+     
 
     // City style for point features
     const sampleCityStyle = new ol.style.Style({
@@ -128,19 +100,6 @@ function init(){
             radius: 9
         })
     }) 
-
-    const deleteCityStyle = new ol.style.Style({
-        image: new ol.style.Circle({
-            fill: new ol.style.Fill({
-                color: [255, 255, 255, 0]
-            }),
-            stroke: new ol.style.Stroke({
-                color: [0, 0, 0, 1],
-                width: 3
-            }),
-            radius: 9
-        })
-    })
 
     // Dept style for point features
     const sampleDepthStyle = new ol.style.Style({
@@ -170,16 +129,6 @@ function init(){
         })
     })
 
-    // Invisible style for point features
-    const invisibleStyle1 = new ol.style.Style({
-        image: new ol.style.Circle({})
-    })
-
-    // Invisible style for point features
-    const invisibleStyle2 = new ol.style.Style({
-        image: new ol.style.Circle({})
-    })
-
     // Style for Vas megye GeoJSON
     const vasStyle = new ol.style.Style({        
         stroke: new ol.style.Stroke({
@@ -199,8 +148,9 @@ function init(){
     map.addLayer(vasLayerGeoJSON);
 
     
-    // Sample GeoJSON LAYER
-    const sampleLayerGeoJSON = new ol.layer.Vector({
+    // Sample GeoJSON LAYERS
+    //city
+    const cityLayerGoeJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON({
                 dataProjection: 'EPSG:23700'
@@ -211,92 +161,104 @@ function init(){
         title: 'SampleData',
         style: null
     })
-    map.addLayer(sampleLayerGeoJSON);   
+
+    //dept
+    const deptLayerGeoJSON = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            format: new ol.format.GeoJSON({
+                dataProjection: 'EPSG:23700'
+            }),
+            url: './data/vector_data/minta.geojson'
+        }),       
+        visible: true, 
+        title: 'SampleData',      
+        style: null
+    })    
+
+    //soil
+    const soilLayerGeoJSON = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            format: new ol.format.GeoJSON({
+                dataProjection: 'EPSG:23700'
+            }),
+            url: './data/vector_data/minta.geojson'
+        }),       
+        visible: true,
+        title: 'SampleData',   
+        style: null
+    })    
+
+    const vectorLayerGroup = new ol.layer.Group({
+        layers: [
+            cityLayerGoeJSON,
+            deptLayerGeoJSON,
+            soilLayerGeoJSON            
+        ]
+    })
+    map.addLayer(vectorLayerGroup)
+
+
     
+    //*********************************************//
+    //*3 különböző vector layer a minta geojsonból*//
+    //*********************************************//
+    let selectedCityCheckbox;
+    let selectedDepthCheckbox;
+    let selectedSoilCheckbox; 
 
-    ///////////////////////////////////////////
-    //// Style function for smaple vector layer 
-    ///////////////////////////////////////////    
-    let selectedCheckbox;
-    let isFeatureVisible;
-    let styleArray = [];
-    let uniquePlus = [];  
-    let uniqueMinus = [];  
-    function uniqueArray(data){ return data.filter((value, index) => data.indexOf(value) === index)}  
-    function removeElementFromuniqueArray(arr, value) {
-        let index = arr.indexOf(value);
-        if (index > -1) {
-          arr.splice(index, 1);
-        }
-        return arr;
-      }
-
-    const styleChangerLogic = function(feature){
-        const selectedCity = feature.get('Helyseg');
-        const selectedDepth = feature.get('Melyseg')
-        const selectedSoil = feature.get('Talajtipus')       
-        if(selectedCheckbox === selectedCity || selectedCheckbox === 'Összes'){            
-            //feature.setStyle(sampleCityStyle);
-            return sampleCityStyle
-        }else if(selectedCheckbox === selectedDepth){
-            //feature.setStyle(sampleDepthStyle);
-            return sampleDepthStyle
-        }else if(selectedCheckbox === selectedSoil){
-            //feature.setStyle(sampleSoilStyle);
-            return sampleSoilStyle
+    ////////////CITY
+    const cityStyleChangerLogic = function(feature){
+        const selectedCity = feature.get('Helyseg');              
+        if(selectedCityCheckbox === selectedCity || selectedCityCheckbox === 'Összes'){           
+            return sampleCityStyle        
         }
     }
 
-    const soilChangerLogic = function(feature){        
-        selectedSoil = feature.get('Talajtipus');
-        if(selectedCheckbox === selectedSoil){
-            //feature.setStyle(sampleSoilStyle)
-            return sampleSoilStyle
-        }           
-    }
-
-    const styleDeleterLogic = function(feature){ 
-        const vectorFeature =  sampleLayerGeoJSON.getSource().getFeatures()
-        console.log(vectorFeature)    
-        /*if(selectedCheckbox === selectedCity){
-            console.log('vectorFeature')
-            feature.setStyle(new ol.style.Style({
-                image: new ol.style.Circle({})
-            }));        
-        } */           
-    }
-
-
-    const allTheCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select > .container > input[type=radio]')
-    for(let oneCheckbox of allTheCheckboxes){                
-        oneCheckbox.addEventListener('change', function(){ 
-                                           
+    const cityCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-city > .container > input[type=radio]')
+    for(let oneCheckbox of cityCheckboxes){                
+        oneCheckbox.addEventListener('change', function(){                                           
             if(oneCheckbox.checked){                  
-                selectedCheckbox = oneCheckbox.value;
-                /*               
-                styleArray.push(selectedCheckbox)
-                uniquePlus = uniqueArray(styleArray)
-                */               
-                sampleLayerGeoJSON.setStyle(styleChangerLogic);                                              
-            }else{
-                //selectedCheckbox = oneCheckbox.id;                
-                /*
-                uniqueMinus = removeElementFromuniqueArray(uniquePlus, selectedCheckbox)
-                uniquePlus, styleArray = uniqueMinus
-                */
-                //console.log(removeElementFromuniqueArray(uniqueArray(styleArray), selectedCheckbox))
-                //selectedCity = undefined;
-                //selectedCheckbox = undefined;                
-                sampleLayerGeoJSON.setStyle(invisibleStyle1);                
-                //console.log(sampleSoilGeoJSON.getStyle())                
+                selectedCityCheckbox = oneCheckbox.value;                          
+                cityLayerGoeJSON.setStyle(cityStyleChangerLogic);                                              
             }
         })        
     }
-    ///////////////////////////////////////////
-    ///////////////////////////////////////////
-    ///////////////////////////////////////////
 
+    ////////////Depth
+    const depthStyleChangerLogic = function(feature){
+        const selectedDepth = feature.get('Melyseg');              
+        if(selectedDepthCheckbox === selectedDepth){            
+            return sampleDepthStyle        
+        }
+    }
+    
+    const depthCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-depth > .container > input[type=radio]')
+    for(let oneCheckbox of depthCheckboxes){                
+        oneCheckbox.addEventListener('change', function(){                                           
+            if(oneCheckbox.checked){                  
+                selectedDepthCheckbox = oneCheckbox.value;                          
+                deptLayerGeoJSON.setStyle(depthStyleChangerLogic);                                              
+            }
+        })        
+    }
 
+    ////////////Soil
+    const soilStyleChangerLogic = function(feature){
+        const selectedSoil = feature.get('Talajtipus');              
+        if(selectedSoilCheckbox === selectedSoil){           
+            return sampleSoilStyle        
+        }
+    }
+
+    const soilCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-soil > .container > input[type=radio]')
+    for(let oneCheckbox of soilCheckboxes){                
+        oneCheckbox.addEventListener('change', function(){                                           
+            if(oneCheckbox.checked){                  
+                selectedSoilCheckbox = oneCheckbox.value;                          
+                soilLayerGeoJSON.setStyle(soilStyleChangerLogic);                                              
+            }
+        })        
+    }
     
     // Cursor style for feature detection on map
     map.on('pointermove', function(evt){
@@ -308,56 +270,27 @@ function init(){
         }
     })
 
+    //hdms
+    map.on('click', function (evt) {  
+        const coordinateElement = document.getElementById('coordinate');      
+        const crdnt = evt.coordinate;
+        const hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(crdnt));
+        coordinateElement.innerHTML = hdms;      
+    })
+
     // Feature click on MAP   
     const mapView = map.getView();
-    map.on('singleclick', function(evt){
-        map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+    map.on('singleclick', function(e){
+        map.forEachFeatureAtPixel(e.pixel, function(feature){            
             try {
                 displayFeatureInfo(feature);
                 zoomToClickedFeature(feature);
             } catch (err) {
                 console.log(`Error has occured: ${err}`)
-            }            
+            }          
         })
     })
-
-    // set content of class="sampleDescription" HTML element
-    function displayFeatureInfo(feature){
-        const cityNameElement = document.getElementById('cityname');
-        const cityImageElement = document.getElementById('cityimage');
-        const lightboxImageElement = document.getElementById('img2');        
-        const sampleTagElement = document.getElementById('sampleTag');
-        const sampleFractionElement = document.getElementById('sampleFraction');
-        const sampleAreaElement = document.getElementById('sampleArea');
-        const sampleDeptElement = document.getElementById('sampleDept');
-        const sampleSoilElement = document.getElementById('sampleSoilType');
-        const sampleDescriptionElement = document.getElementById('extendedInformation'); 
-        const featureName = feature.get('Helyseg');
-        const featureIMG = feature.get('Foto');
-        
-        if(featureName != undefined && featureName != null){            
-            cityImageElement.setAttribute('src', `./data/static_images/pics/${featureIMG}.jpg`);
-            lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/pics/${featureIMG}.jpg')`);
-            cityNameElement.innerHTML = `Település:  ${feature.get('Helyseg')}`;
-            sampleTagElement.innerHTML = `Erdőtag: ${feature.get('Tag')}`;
-            sampleFractionElement.innerHTML = `Erdőrészlet: ${feature.get('Reszlet')}`;
-            sampleAreaElement.innerHTML = `Terület:  ${feature.get('Terulet')} ha`;
-            sampleDeptElement.innerHTML = `Termőréteg mélység: ${feature.get('Melyseg')}`;
-            sampleSoilElement.innerHTML = `Talajtípus: ${feature.get('Talajtipus')}`;
-            sampleDescriptionElement.innerHTML = feature.get('Leiras');
-            
-        }else{
-            cityImageElement.setAttribute('src', './data/static_images/description.png');
-            lightboxImageElement.setAttribute('style', `background-image: url('./data/static_images/description.png')`);
-            cityNameElement.innerHTML = 'Válasszon mintát!';
-            sampleTagElement.innerHTML = `Erdőtag: `;
-            sampleFractionElement.innerHTML = `Erdőrészlet: `;
-            sampleAreaElement.innerHTML = `Terület:  `;
-            sampleDeptElement.innerHTML = `Termőréteg mélység: `;
-            sampleSoilElement.innerHTML = `Talajtípus: `;
-            sampleDescriptionElement.innerHTML = 'Válasszon ki egy mintát a térképről.';
-        }        
-    }    
+   
 
     // Map interaction on selecting a feature
     const selectInteraction = new ol.interaction.Select({
@@ -365,17 +298,18 @@ function init(){
         layers: function(layer){
             return layer.get('title') === 'SampleData';
         },
-        style: sampleStyle
+        style: selectedSampleStyle
     })
     map.addInteraction(selectInteraction)
 
     // Map animation on selecting a feature
     function zoomToClickedFeature(feature){        
             let featureCoordinates = feature.get('geometry').getCoordinates();            
-            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 13})
+            mapView.animate({center: featureCoordinates, duration: 1000}, {zoom: 14})
     }
 
     // Scale line control
     const scaleLineControl = new ol.control.ScaleLine({bar: true});
     map.addControl(scaleLineControl);
+
 }

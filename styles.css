@@ -2,7 +2,7 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
-    /*background-image: linear-gradient(to right, rgb(0, 120, 5) 80%, rgb(0, 60, 5));*/
+    background-image: linear-gradient(to right, rgb(0, 120, 5) 50%, rgb(0, 60, 5));
     background-color: rgb(0, 80, 5);
 }
 
@@ -61,7 +61,9 @@ section.navbar label {
 }
 
 .dropdown-content,
-.dropdown-content-select {
+.dropdown-content-select-soil,
+.dropdown-content-select-depth,
+.dropdown-content-select-city {
     display: none;
     position: absolute;
     background-color: rgb(0, 120, 5, .9);
@@ -72,7 +74,9 @@ section.navbar label {
 }
 
 .dropdown-content label,
-.dropdown-content-select label {
+.dropdown-content-select-soil label,
+.dropdown-content-select-depth label,
+.dropdown-content-select-city label {
     float: none;
     color: white;
     padding: 5px 5px;
@@ -82,7 +86,9 @@ section.navbar label {
 }
 
 .dropdown:hover .dropdown-content,
-.dropdown:hover .dropdown-content-select {
+.dropdown:hover .dropdown-content-select-soil,
+.dropdown:hover .dropdown-content-select-depth,
+.dropdown:hover .dropdown-content-select-city {
     display: block;
 }
 
@@ -134,6 +140,8 @@ section.column-menu {
     font-family: Arial;
     color: white;
 }
+
+
 
 .sampleDescription {
     margin: 0;
@@ -229,7 +237,8 @@ section.column-menu {
 
 /*Openlayers controls*/
 
-.ol-control button {
+.ol-control button,
+.ol-control button:focus {
     background-color: rgb(0, 80, 5, 0.6);
 }
 
@@ -237,7 +246,16 @@ section.column-menu {
     background-color: rgb(0, 80, 5);
 }
 
-.ol-control button:focus,
 .ol-scale-line {
     background-color: rgb(0, 80, 5, 0.8);
+}
+
+/*Responsiveness*/
+@media screen and (max-width: 1024px){
+    #cityname {
+        height: 30%
+    }
+    .picture-menu {
+        height: 50%;
+    }
 }
