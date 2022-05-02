@@ -17,17 +17,17 @@ function init(){
             minZoom: 7,
             //projection: "EPSG:3857",
             extent: [1739604.2512535667, 5667622.243940988, 2659169.744533458, 6278642.820110521]
-        }),        
-        target: "js-map",        
+        }),
+        target: "js-map",
         keyboardEventTarget: document
     })
     
     ////// Base Layers //////
     // OSM Layer
     const openStreetMapLayer = new ol.layer.Tile({
-        source: new ol.source.OSM(),        
+        source: new ol.source.OSM(),
         visible: true,
-        title: 'OSMTileLayer'        
+        title: 'OSMTileLayer'
     })
 
     // OSM Humanitarian
@@ -150,7 +150,7 @@ function init(){
     
     // Sample GeoJSON LAYERS
     //city
-    const cityLayerGoeJSON = new ol.layer.Vector({
+    const cityLayerGeoJSON = new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON({
                 dataProjection: 'EPSG:23700'
@@ -190,7 +190,7 @@ function init(){
 
     const vectorLayerGroup = new ol.layer.Group({
         layers: [
-            cityLayerGoeJSON,
+            cityLayerGeoJSON,
             deptLayerGeoJSON,
             soilLayerGeoJSON            
         ]
@@ -202,24 +202,24 @@ function init(){
     //*********************************************//
     //*3 különböző vector layer a minta geojsonból*//
     //*********************************************//
-    let selectedCityCheckbox;
-    let selectedDepthCheckbox;
-    let selectedSoilCheckbox; 
+    let selectedCityRadioBtn;
+    let selectedDepthRadioBtn;
+    let selectedSoilRadioBtn; 
 
     ////////////CITY
     const cityStyleChangerLogic = function(feature){
         const selectedCity = feature.get('Helyseg');              
-        if(selectedCityCheckbox === selectedCity || selectedCityCheckbox === 'Összes'){           
+        if(selectedCityRadioBtn === selectedCity || selectedCityRadioBtn === 'Összes'){           
             return sampleCityStyle        
         }
     }
 
-    const cityCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-city > .container > input[type=radio]')
-    for(let oneCheckbox of cityCheckboxes){                
-        oneCheckbox.addEventListener('change', function(){                                           
-            if(oneCheckbox.checked){                  
-                selectedCityCheckbox = oneCheckbox.value;                          
-                cityLayerGoeJSON.setStyle(cityStyleChangerLogic);                                              
+    const cityRadioBtns = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-city > .container > input[type=radio]')
+    for(let oneRadioBtn of cityRadioBtns){                
+        oneRadioBtn.addEventListener('change', function(){                                           
+            if(oneRadioBtn.checked){                  
+                selectedCityRadioBtn = oneRadioBtn.value;                          
+                cityLayerGeoJSON.setStyle(cityStyleChangerLogic);                                              
             }
         })        
     }
@@ -227,16 +227,16 @@ function init(){
     ////////////Depth
     const depthStyleChangerLogic = function(feature){
         const selectedDepth = feature.get('Melyseg');              
-        if(selectedDepthCheckbox === selectedDepth){            
+        if(selectedDepthRadioBtn === selectedDepth){            
             return sampleDepthStyle        
         }
     }
     
-    const depthCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-depth > .container > input[type=radio]')
-    for(let oneCheckbox of depthCheckboxes){                
-        oneCheckbox.addEventListener('change', function(){                                           
-            if(oneCheckbox.checked){                  
-                selectedDepthCheckbox = oneCheckbox.value;                          
+    const depthRadioBtns = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-depth > .container > input[type=radio]')
+    for(let oneRadioBtn of depthRadioBtns){                
+        oneRadioBtn.addEventListener('change', function(){                                           
+            if(oneRadioBtn.checked){                  
+                selectedDepthRadioBtn = oneRadioBtn.value;                          
                 deptLayerGeoJSON.setStyle(depthStyleChangerLogic);                                              
             }
         })        
@@ -245,16 +245,16 @@ function init(){
     ////////////Soil
     const soilStyleChangerLogic = function(feature){
         const selectedSoil = feature.get('Talajtipus');              
-        if(selectedSoilCheckbox === selectedSoil){           
+        if(selectedSoilRadioBtn === selectedSoil){           
             return sampleSoilStyle        
         }
     }
 
-    const soilCheckboxes = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-soil > .container > input[type=radio]')
-    for(let oneCheckbox of soilCheckboxes){                
-        oneCheckbox.addEventListener('change', function(){                                           
-            if(oneCheckbox.checked){                  
-                selectedSoilCheckbox = oneCheckbox.value;                          
+    const soilRadioBtns = document.querySelectorAll('.navbar > .dropdown > .dropdown-content-select-soil > .container > input[type=radio]')
+    for(let oneRadioBtn of soilRadioBtns){                
+        oneRadioBtn.addEventListener('change', function(){                                           
+            if(oneRadioBtn.checked){                  
+                selectedSoilRadioBtn = oneRadioBtn.value;                          
                 soilLayerGeoJSON.setStyle(soilStyleChangerLogic);                                              
             }
         })        
@@ -271,15 +271,16 @@ function init(){
     })
 
     //hdms
-    map.on('click', function (evt) {  
-        const coordinateElement = document.getElementById('coordinate');      
+    map.on('click', function (evt) {
+        const coordinateElement = document.getElementById('coordinate');
         const crdnt = evt.coordinate;
         const hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(crdnt));
-        coordinateElement.innerHTML = hdms;      
+        coordinateElement.innerHTML = hdms;
     })
 
     // Feature click on MAP   
     const mapView = map.getView();
+
     map.on('singleclick', function(e){
         map.forEachFeatureAtPixel(e.pixel, function(feature){            
             try {

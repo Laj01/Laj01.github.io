@@ -14,10 +14,10 @@
     const soilMenu = 'soilSelectorRadioButton'
 
     const displayDropdown = function(name, menu, dropdown) {
-        name.forEach(function(cn) {
+        name.forEach(function(n) {
             const html = `
             <label class="container">
-                <input type="radio" name="${menu}" value="${cn}" autocomplete="off">${cn}</input>
+                <input type="radio" name="${menu}" value="${n}" autocomplete="off">${n}</input>
             </label>`;
             dropdown.insertAdjacentHTML('beforeend', html)
         })
